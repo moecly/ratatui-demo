@@ -12,13 +12,15 @@ impl<'a> TabsState<'a> {
 pub struct App<'a> {
     pub title: &'a str,
     pub tabs: TabsState<'a>,
+    pub progress: f64,
 }
 
 impl<'a> App<'a> {
     pub fn new() -> Self {
         App {
             title: "ratatui-demo",
-            tabs: TabsState::new(vec!["Tab0", "Tab1", "Tab2"])
+            tabs: TabsState::new(vec!["Tab0", "Tab1", "Tab2"]),
+            progress: 0.0,
         }
     }
 }

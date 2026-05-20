@@ -20,3 +20,11 @@ pub fn render(frame: &mut Frame, app: &mut App) {
 
     frame.render_widget(tabs, chunks[0]);
 }
+
+fn draw_first_tab(frame: &mut Frame) {
+    let chunks = Layout::vertical([
+        Constraint::Length(9),
+        Constraint::Min(8),
+        Constraint::Length(7),
+    ]).split(frame.area());
+}

@@ -14,7 +14,6 @@ pub fn run(terminal: &mut DefaultTerminal) -> Result<()> {
     let mut app = App::new();
 
     loop {
-        // terminal.draw(ui::render)?;
         terminal.draw(|frame| ui::render(frame, &mut app))?;
         if should_quit()? {
             break;

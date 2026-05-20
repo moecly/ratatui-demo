@@ -4,6 +4,7 @@ use color_eyre::eyre::Result;
 
 mod crossterm;
 mod ui;
+mod app;
 
 fn main() -> Result<()> {
     println!("Hello, world!");

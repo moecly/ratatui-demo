@@ -8,10 +8,14 @@ use crossterm::event::KeyCode;
 use ratatui::DefaultTerminal;
 
 use crate::ui;
+use crate::app::App;
 
 pub fn run(terminal: &mut DefaultTerminal) -> Result<()> {
+    let mut app = App::new();
+
     loop {
-        terminal.draw(ui::render)?;
+        // terminal.draw(ui::render)?;
+        terminal.draw(|frame| ui::render(frame, &mut app))?;
         if should_quit()? {
             break;
         }

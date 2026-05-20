@@ -6,22 +6,17 @@ use color_eyre::eyre::Result;
 use crossterm::event;
 use crossterm::event::KeyCode;
 use ratatui::DefaultTerminal;
-use ratatui::Frame;
-use ratatui::widgets::Paragraph;
+
+use crate::ui;
 
 pub fn run(terminal: &mut DefaultTerminal) -> Result<()> {
     loop {
-        terminal.draw(render)?;
+        terminal.draw(ui::render)?;
         if should_quit()? {
             break;
         }
     }
     Ok(())
-}
-
-fn render(frame: &mut Frame) {
-    let greeting = Paragraph::new("Hello World!");
-    frame.render_widget(greeting, frame.area());
 }
 
 fn should_quit() -> Result<bool> {

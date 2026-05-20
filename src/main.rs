@@ -3,6 +3,7 @@ use color_eyre::eyre::Ok;
 use color_eyre::eyre::Result;
 
 mod crossterm;
+mod ui;
 
 fn main() -> Result<()> {
     println!("Hello, world!");

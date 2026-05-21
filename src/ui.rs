@@ -1,7 +1,7 @@
 use ratatui::layout::{Constraint, Layout, Rect};
 use ratatui::style::{Color, Modifier, Style};
 use ratatui::text::Span;
-use ratatui::widgets::{Block, Gauge, Paragraph, Tabs};
+use ratatui::widgets::{Block, Gauge, Paragraph, Sparkline, Tabs};
 use ratatui::{Frame, text};
 
 use crate::app::App;
@@ -55,10 +55,23 @@ fn draw_gauges(app: &mut App, frame: &mut Frame, area: Rect) {
         .label(label)
         .block(Block::new().title("Gauge:"))
         .gauge_style(
-            Style::default()
+            Style::new()
                 .fg(Color::Magenta)
                 .bg(Color::Black)
                 .add_modifier(Modifier::ITALIC | Modifier::BOLD),
-        ).ratio(app.progress);
+        )
+        .ratio(app.progress);
     frame.render_widget(gauge, chunks[0]);
+
+    let sparkline = Sparkline::default()
+        .data(
+            app.sparkline
+                .points
+                .iter()
+                .map(|p| *p as u64)
+                .collect::<Vec<u64>>(),
+        )
+        .block(Block::new().title("Sparkline:"))
+        .style(Style::new().fg(Color::Green));
+    frame.render_widget(sparkline, chunks[1]);
 }

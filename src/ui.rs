@@ -1,5 +1,5 @@
 use ratatui::layout::{Constraint, Layout, Rect};
-use ratatui::style::{Color, Style};
+use ratatui::style::{Color, Modifier, Style};
 use ratatui::text::Span;
 use ratatui::widgets::{Block, Gauge, Paragraph, Tabs};
 use ratatui::{Frame, text};
@@ -22,19 +22,19 @@ pub fn render(frame: &mut Frame, app: &mut App) {
 
     match app.tabs.index {
         0 => {
-            draw_first_tab(app, frame);
+            draw_first_tab(app, frame, chunks[1]);
         }
         _ => {}
     }
 }
 
-fn draw_first_tab(app: &mut App, frame: &mut Frame) {
+fn draw_first_tab(app: &mut App, frame: &mut Frame, area: Rect) {
     let chunks = Layout::vertical([
         Constraint::Length(9),
         Constraint::Min(8),
         Constraint::Length(7),
     ])
-    .split(frame.area());
+    .split(area);
     draw_gauges(app, frame, chunks[0]);
 }
 
@@ -47,9 +47,18 @@ fn draw_gauges(app: &mut App, frame: &mut Frame, area: Rect) {
     .margin(1)
     .split(area);
 
+    let block = Block::bordered().title("Graphs");
+    frame.render_widget(block, area);
+
     let label = format!("{:.2}%", app.progress * 100.0);
     let gauge = Gauge::default()
         .label(label)
-        .block(Block::new());
-    frame.render_widget(gauge, area);
+        .block(Block::new().title("Gauge:"))
+        .gauge_style(
+            Style::default()
+                .fg(Color::Magenta)
+                .bg(Color::Black)
+                .add_modifier(Modifier::ITALIC | Modifier::BOLD),
+        ).ratio(app.progress);
+    frame.render_widget(gauge, chunks[0]);
 }
